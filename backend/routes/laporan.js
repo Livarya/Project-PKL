@@ -19,7 +19,8 @@ const {
   getUserLaporan,
   getAllLaporan,
   getLaporanById,
-  updateStatusLaporan
+  updateStatusLaporan,
+  deleteLaporan
 } = require('../controllers/laporanController');
 
 router.post('/upload', auth, upload.single('foto'), (req, res) => {
@@ -32,5 +33,6 @@ router.get('/user', auth, getUserLaporan);
 router.get('/', auth, isAdmin, getAllLaporan);
 router.get('/:id', auth, getLaporanById);
 router.put('/:id/status', auth, isAdmin, updateStatusLaporan);
+router.delete('/:id', auth, isAdmin, deleteLaporan);
 
 module.exports = router; 

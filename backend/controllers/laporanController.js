@@ -1,4 +1,5 @@
 const Laporan = require('../models/Laporan');
+const mongoose = require('mongoose');
 
 exports.createLaporan = async (req, res) => {
   try {
@@ -62,6 +63,21 @@ exports.updateStatusLaporan = async (req, res) => {
     );
     if (!laporan) return res.status(404).json({ msg: 'Laporan tidak ditemukan' });
     res.json(laporan);
+  } catch (err) {
+    res.status(500).json({ msg: 'Server error' });
+  }
+};
+
+exports.deleteLaporan = async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log('Delete laporan id:', id);
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(404).json({ msg: 'ID tidak valid' });
+    }
+    const laporan = await Laporan.findByIdAndDelete(id);
+    if (!laporan) return res.status(404).json({ msg: 'Laporan tidak ditemukan' });
+    res.status(200).json({ msg: 'Laporan berhasil dihapus' });
   } catch (err) {
     res.status(500).json({ msg: 'Server error' });
   }
